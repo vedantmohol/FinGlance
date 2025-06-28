@@ -1,6 +1,6 @@
 import ColorModeToggle from '@/components/ColorModeToggle';
 import { useColorModeValue } from '@/components/ui/color-mode';
-import { Box, Button, Field, Fieldset, Input, Stack, Alert, Flex } from '@chakra-ui/react';
+import { Box, Button, Field, Fieldset, Input, Stack, Alert, Flex, Spinner } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ const Register = () => {
   const [status, setStatus] = useState<'success' | 'error' | 'info' | null>(null);
   const navigate = useNavigate();
   const bg = useColorModeValue('gray.50', 'rgba(26, 28, 34, 1)');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,6 +18,7 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const res = await fetch('/api/auth/register', {
@@ -37,6 +39,8 @@ const Register = () => {
     } catch (err: any) {
       setStatus('error');
       setAlertMsg(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,8 +97,8 @@ const Register = () => {
             </Field.Root>
 
             <Flex justify="space-between" align="center">
-              <Button colorScheme="blue" type="submit">
-                Register
+              <Button colorScheme="blue" type="submit" disabled={loading}>
+                {loading ? <Spinner size="sm" /> : 'Register'}
               </Button>
 
               <Link
