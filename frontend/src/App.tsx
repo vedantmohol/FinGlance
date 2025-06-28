@@ -1,11 +1,13 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
 
 function App() {
   return (
-    <Box p={8}>
-      <Heading>Welcome to FinGlance</Heading>
-      <Text mt={4}>Start building your dashboard here.</Text>
-    </Box>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 
