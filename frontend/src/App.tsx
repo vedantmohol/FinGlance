@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import Transaction from './pages/Transaction';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/transactions" element={<Transaction />} />
           </Route>
         </Route>
       </Routes>
