@@ -51,12 +51,23 @@ export const loginUser = async (req: Request, res: Response, next: NextFunction)
 
     const { password: _, ...userInfo } = user.toObject();
 
-    res.status(200).json({
-      message: 'Login successful',
-      token,
-      user: userInfo,
-    });
+    res.cookie("access_token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+      }).status(200).json({
+        message: "Login successful",
+        user: userInfo,
+      });
   } catch (err) {
     return next(errorHandler(500, 'Login failed'));
+  }
+};
+
+export const logoutUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    return res.clearCookie('access_token').status(200).json({ message: 'User has been signed out' });
+  } catch (error) {
+    next(error);
   }
 };
