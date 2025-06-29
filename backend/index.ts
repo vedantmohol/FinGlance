@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRoutes from './routes/auth.route';
 import transactionRoutes from './routes/transaction.route';
+import path from 'path';
 
 dotenv.config();
 
@@ -16,7 +17,14 @@ const app = express();
 
 app.use(express.json());
 
-const PORT = 3000;
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
