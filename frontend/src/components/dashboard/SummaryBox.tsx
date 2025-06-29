@@ -25,7 +25,7 @@ export default function SummaryBox({ title, amount, iconType }: Props) {
     <Box bg={bg} p={5} borderRadius="lg" shadow="md">
       <Flex align="center" justify="space-between">
         <Icon boxSize={8} color="green.400"/>
-        <Box>
+        <Box color={useColorModeValue('black', 'white')}>
           <Text fontSize="lg" fontWeight="bold">{title}</Text>
           <Text fontSize="2xl" fontWeight="extrabold">
             ${Math.round(amount).toLocaleString()}

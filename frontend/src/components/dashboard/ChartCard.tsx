@@ -68,8 +68,8 @@ export default function ChartCard({ transactions }: Props) {
   return (
     <Box p={5} bg={bg} borderRadius="lg" shadow="md">
       <Flex justify="space-between" align="center" mb={4}>
-        <Heading size="md">Overview</Heading>
-        <HStack gap={6} align="center">
+        <Heading size="md" color={useColorModeValue('black', 'white')}>Overview</Heading>
+        <HStack gap={6} align="center" color={useColorModeValue('black', 'white')}>
           <HStack gap={1}>
             <Circle size="10px" bg="green.400" />
             <Text fontSize="sm">Revenue</Text>

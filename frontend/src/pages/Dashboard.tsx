@@ -3,6 +3,7 @@ import { SimpleGrid, Spinner, Box } from '@chakra-ui/react';
 import SummaryBox from '@/components/dashboard/SummaryBox';
 import ChartCard from '@/components/dashboard/ChartCard';
 import LatestTransactions from '@/components/dashboard/LatestTransactions';
+import TransactionTable from '@/components/dashboard/TransactionTable';
 
 interface Summary {
   balance: number;
@@ -71,9 +72,18 @@ function Dashboard() {
           <ChartCard transactions={transactions} />
         </Box>
         <Box gridColumn={{ base: "1 / -1", md: "span 3" }}>
-          <LatestTransactions transactions={transactions.slice(0, 3)} />
+          <LatestTransactions
+            transactions={[...transactions]
+              .sort(
+                (a, b) =>
+                  new Date(b.date).getTime() - new Date(a.date).getTime()
+              )
+              .slice(0, 3)}
+          />
         </Box>
       </SimpleGrid>
+
+      <TransactionTable transactions={transactions.slice(0, 20)} />
     </Box>
   );
 }
