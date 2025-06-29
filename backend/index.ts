@@ -2,6 +2,7 @@ import express,{ Request, Response, NextFunction }  from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import authRoutes from './routes/auth.route';
+import transactionRoutes from './routes/transaction.route';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.listen(PORT, () => {
 })
 
 app.use('/api/auth', authRoutes);
+app.use('/api/transaction',transactionRoutes);
 
 export const errorMiddleware = ( err: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500;
