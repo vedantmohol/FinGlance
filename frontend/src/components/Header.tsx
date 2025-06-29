@@ -1,11 +1,12 @@
 import { Box, Flex, Heading, IconButton, Input, InputGroup, Text, Portal } from '@chakra-ui/react';
 import { Avatar, Menu } from '@chakra-ui/react';
 import { AiOutlineSearch, AiOutlineBell } from 'react-icons/ai';
-import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/redux/store';
 import ColorModeToggle from '@/components/ColorModeToggle';
 import { useColorModeValue } from './ui/color-mode';
+import { signoutSuccess } from '@/redux/user/userSlice';
 
 const getPageTitle = (path: string) => {
   const map: Record<string, string> = {
@@ -24,6 +25,26 @@ const Header = () => {
   const path = useLocation().pathname;
   const title = getPageTitle(path);
   const { currentUser } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+   const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error(data.message || 'Logout failed');
+      } else {
+        dispatch(signoutSuccess());
+        navigate('/login');
+      }
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <Flex
@@ -81,8 +102,8 @@ const Header = () => {
                       {currentUser.user.email}
                     </Text>
                   </Box>
-                  <Menu.Item value="profile">Profile</Menu.Item>
-                  <Menu.Item value="logout">Logout</Menu.Item>
+                  <Menu.Item value="profile" cursor="pointer">Profile</Menu.Item>
+                  <Menu.Item value="logout" onSelect={handleSignout} cursor="pointer">Logout</Menu.Item>
                 </Menu.Content>
               </Menu.Positioner>
             </Portal>
