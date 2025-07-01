@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
-import User from '../models/user.model';
+import User from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
-import { errorHandler } from '../utils/error';
+import { errorHandler } from '../utils/error.js';
 
 export const registerUser = async (req: Request, res: Response, next: NextFunction) => {
   try {

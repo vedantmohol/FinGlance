@@ -1,8 +1,8 @@
 import express,{ Request, Response, NextFunction }  from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import authRoutes from './routes/auth.route';
-import transactionRoutes from './routes/transaction.route';
+import authRoutes from './routes/auth.route.js';
+import transactionRoutes from './routes/transaction.route.js';
 import path from 'path';
 
 dotenv.config();
@@ -17,21 +17,17 @@ const app = express();
 
 app.use(express.json());
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/frontend/dist')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
-});
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-})
+const PORT = 3000;
 
 app.use('/api/auth', authRoutes);
 app.use('/api/transaction',transactionRoutes);
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+});
 
 export const errorMiddleware = ( err: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500;
@@ -44,3 +40,7 @@ export const errorMiddleware = ( err: any, req: Request, res: Response, next: Ne
 };
 
 app.use(errorMiddleware);
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

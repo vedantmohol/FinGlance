@@ -1,12 +1,12 @@
 {
   "name": "finglance",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "dev": "tsx watch backend/index.ts",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend && tsc",
-    "start": "node dist/index.js",
+    "start": "tsx backend/index.ts",
     "seed": "tsx backend/seedTransactions.ts"
   },
   "keywords": [],
